@@ -6,7 +6,7 @@ class BookShelf extends React.Component {
 
   
 render(){
-    let shelves=["wantToRead", "currentlyReading", "read"];
+
     //the filtered list of books by a shelf
     let booksOfShelf= this.props.books.filter((book)=>{ return book.shelf.toUpperCase()===this.props.title.replace(/\s/g, "").toUpperCase()
     //console.log(this.props.title.replace(/\s/g, "").toUpperCase(), book.shelf.toUpperCase());
@@ -26,9 +26,9 @@ console.log(booksOfShelf);
                            <div className="book-shelf-changer">
                              <select onChange={(event)=>this.props.onUpdate(book, event.target.value)}>
                                <option value="move" disabled>Move to...</option>
-                               <option value="currentlyReading" selected={book.shelf=="currentlyReading"}>Currently Reading</option>
-                               <option value="wantToRead" selected={book.shelf=="wantToRead"} >Want to Read</option>
-                               <option value="read" selected={book.shelf=="read"}>Read</option>
+                               <option value="currentlyReading" selected={book.shelf==="currentlyReading"}>Currently Reading</option>
+                               <option value="wantToRead" selected={book.shelf==="wantToRead"} >Want to Read</option>
+                               <option value="read" selected={book.shelf==="read"}>Read</option>
                                <option value="none">None</option>
                              </select>
                            </div>
