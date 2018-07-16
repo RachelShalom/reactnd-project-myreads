@@ -17,10 +17,14 @@ class BooksApp extends React.Component {
   }
   componentDidMount(){
     BooksAPI.getAll().then((books)=>{ 
-      console.log(books) 
       this.setState({books:books})})
   }
-  
+  //a function to update a book shelf every time the user selects ashelf from the menu options
+  updateBook=(book, shelf)=>{
+    console.log(book, shelf);
+    BooksAPI.update(book,shelf).then(() => BooksAPI.getAll()).then((books)=>{this.setState({books})})
+
+  }
   render() {
     return (
       <div className="app">
@@ -52,9 +56,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <BookShelf title='Currently Reading' books={this.state.books}/>
-                <BookShelf title='Want To Read' books={this.state.books}/>
-                <BookShelf title='Read' books={this.state.books}/>
+                <BookShelf title='Currently Reading' books={this.state.books} onUpdate={this.updateBook}/>
+                <BookShelf title='Want To Read' books={this.state.books} onUpdate={this.updateBook}/>
+                <BookShelf title='Read' books={this.state.books} onUpdate={this.updateBook}/>
               
               </div>
             </div>

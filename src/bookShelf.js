@@ -3,6 +3,8 @@ import React from 'react'
 import './App.css'
 
 class BookShelf extends React.Component {
+
+  
 render(){
     let shelves=["wantToRead", "currentlyReading", "read"];
     //the filtered list of books by a shelf
@@ -22,11 +24,11 @@ console.log(booksOfShelf);
                          <div className="book-top">
                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
                            <div className="book-shelf-changer">
-                             <select>
+                             <select onChange={(event)=>this.props.onUpdate(book, event.target.value)}>
                                <option value="move" disabled>Move to...</option>
-                               <option value="currentlyReading">Currently Reading</option>
-                               <option value="wantToRead">Want to Read</option>
-                               <option value="read">Read</option>
+                               <option value="currentlyReading" selected={book.shelf=="currentlyReading"}>Currently Reading</option>
+                               <option value="wantToRead" selected={book.shelf=="wantToRead"} >Want to Read</option>
+                               <option value="read" selected={book.shelf=="read"}>Read</option>
                                <option value="none">None</option>
                              </select>
                            </div>
