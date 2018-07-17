@@ -10,7 +10,24 @@ class SearchBook extends React.Component {
         query:''
     }
 
+    updateSearchResults=(query)=>{
+      this.setState({query:query})
+      if(this.state.query){
+        BooksAPI.search(this.state.query).then((books)=>{
+          this.setState({books:books})})   
+      }
+     
+    }
+
     render() {
+      // console.log('the state now is ',this.state.books)
+      // console.log('the query now is ',this.state.query)
+      let bookResults;
+      if(this.state.books.length>0){
+        bookResults=this.state.books;
+      }else{
+        bookResults=[];
+      }
         return (
          
                 <div className="search-books">
@@ -25,13 +42,15 @@ class SearchBook extends React.Component {
                         However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                         you don't find a specific author or title. Every search is limited by search terms.
                       */}
-                      <input type="text" placeholder="Search by title or author"/>
+                      <input type="text" placeholder="Search by title or author" 
+                      value={this.state.query}
+                      onChange={(event)=>(this.updateSearchResults(event.target.value))}/>
       
                     </div>
                   </div>
                   <div className="search-books-results">
                     <ol className="books-grid">
-                    {this.state.books.map((book)=>(
+                    {bookResults.map((book)=>(
                        <li key= {book.id}>
                        <div className="book">
                          <div className="book-top">
@@ -54,6 +73,8 @@ class SearchBook extends React.Component {
                     
                     </ol>
                   </div>
+                {/*this is for when the user types invalid quesry or when we get no results  */}
+                {this.state.books.error==="empty query"&&(<h1>Sorry no results</h1>)}
                 </div>
               )}
 
