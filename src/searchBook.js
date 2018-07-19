@@ -14,7 +14,11 @@ class SearchBook extends React.Component {
       this.setState({query:query})
       if(this.state.query){
         BooksAPI.search(this.state.query).then((books)=>{
-          this.setState({books:books})})   
+          this.setState({books:books})})
+          console.log('the state now is ',this.state.books,"query: ", this.state.query)   
+      }else{
+          this.setState({query:query, books:[]})
+          console.log('the state now is ',this.state.books,"query: ", this.state.query)   
       }
      
     }
