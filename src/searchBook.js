@@ -9,6 +9,26 @@ class SearchBook extends React.Component {
         books:[],
         query:''
     }
+    //a function to compare 2 arrays of books and change the book.shlef if the books are identical
+    compareBooks= (searchedBooks,shelfBooks)=>{
+      let identicalBook;
+      searchedBooks.map((b1)=>{
+        //are there any books from the search on the shelf?
+      identicalBook=shelfBooks.find((b2)=>{ return b2.id===b1.id})
+      console.log("identical shlefBook: ", identicalBook);
+      if(identicalBook){
+        b1["shelf"]=identicalBook.shelf;
+        console.log("b1",b1);
+      }
+      
+      return b1;
+     
+    })
+      
+    }
+    
+    
+    //a function to present the right results according to the user query
   updateSearchResults = (query) => {
     this.setState({ query: query })
     if (query) {
@@ -32,27 +52,21 @@ class SearchBook extends React.Component {
   }
 
     render() {
-      let bookResults;
+      let bookResults, updated;
       if(this.state.books.length>0){
-        bookResults=this.state.books;
+        bookResults= this.state.books;
+        updated=this.compareBooks(this.state.books, this.props.booksOnShelf);
+        console.log(bookResults);
+        console.log("updated results ",updated);
       }else{
         bookResults=[];
       }
-      console.log(' inside render: the book state is ',this.state.books)   
         return (
          
           <div className="search-books">
             <div className="search-books-bar">
               <Link to="/" className="close-search">Close</Link>
               <div className="search-books-input-wrapper">
-                {/*
-                        NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                        You can find these search terms here:
-                        https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-      
-                        However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                        you don't find a specific author or title. Every search is limited by search terms.
-                      */}
                 <input type="text" placeholder="Search by title or author"
                   //value={this.state.query}
                   onChange={(event) => (this.updateSearchResults(event.target.value))} />
