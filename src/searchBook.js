@@ -7,24 +7,29 @@ class SearchBook extends React.Component {
 
     state={
         books:[],
-        //query:''
+        query:''
     }
-
-    updateSearchResults=(query)=>{
-      //this.setState({query:query})
-      //
-        BooksAPI.search(query).then((books)=>{
-          if(books){
-          this.setState({books:books}) 
-          }else{
-            this.setState({books:[]})
+  updateSearchResults = (query) => {
+    this.setState({ query: query })
+    if (query) {
+      BooksAPI.search(query).then((books) => {
+        //is this the response to the current query 
+        if (query === this.state.query) {
+          //in case it is the is the response not empty/defined
+          if (books) {
+            this.setState({ books: books })
           }
-          console.log(query, this.state.books)
-        })
-         
-  //
-     
+          //otherwise - if reponse is error or undefined lcear results
+        } else {
+          //if the response is from past queries clear 
+          this.setState({ books: [] })
+        }
+      })
+    } else {
+      // empty query clear results
+      this.setState({ books: [] })
     }
+  }
 
     render() {
       let bookResults;
