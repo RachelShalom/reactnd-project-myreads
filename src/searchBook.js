@@ -7,31 +7,33 @@ class SearchBook extends React.Component {
 
     state={
         books:[],
-        query:''
+        //query:''
     }
 
     updateSearchResults=(query)=>{
-      this.setState({query:query})
-      if(this.state.query){
-        BooksAPI.search(this.state.query).then((books)=>{
-          this.setState({books:books})})
-          console.log('the state now is ',this.state.books,"query: ", this.state.query)   
-      }else{
-          this.setState({query:query, books:[]})
-          console.log('the state now is ',this.state.books,"query: ", this.state.query)   
-      }
+      //this.setState({query:query})
+      //
+        BooksAPI.search(query).then((books)=>{
+          if(books){
+          this.setState({books:books}) 
+          }else{
+            this.setState({books:[]})
+          }
+          console.log(query, this.state.books)
+        })
+         
+  //
      
     }
 
     render() {
-      // console.log('the state now is ',this.state.books)
-      // console.log('the query now is ',this.state.query)
       let bookResults;
       if(this.state.books.length>0){
         bookResults=this.state.books;
       }else{
         bookResults=[];
       }
+      console.log(' inside render: the book state is ',this.state.books)   
         return (
          
                 <div className="search-books">
@@ -47,7 +49,7 @@ class SearchBook extends React.Component {
                         you don't find a specific author or title. Every search is limited by search terms.
                       */}
                       <input type="text" placeholder="Search by title or author" 
-                      value={this.state.query}
+                      //value={this.state.query}
                       onChange={(event)=>(this.updateSearchResults(event.target.value))}/>
       
                     </div>
@@ -58,7 +60,8 @@ class SearchBook extends React.Component {
                        <li key= {book.id}>
                        <div className="book">
                          <div className="book-top">
-                           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
+                       { book.imageLinks&&<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>}
+                       {!book.imageLinks&&<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(https://source.unsplash.com/_M-DrbiNFa4)`}}></div>}
                            <div className="book-shelf-changer">
                              <select onChange={(event)=>this.props.onUpdate(book, event.target.value)}>
                                <option value="move" disabled>Move to...</option>
@@ -78,7 +81,7 @@ class SearchBook extends React.Component {
                     </ol>
                   </div>
                 {/*this is for when the user types invalid quesry or when we get no results  */}
-                {this.state.books.error==="empty query"&&(<h1>Sorry no results</h1>)}
+                {this.state.books&&this.state.books.error==="empty query"&&(<h1>Sorry no results</h1>)}
                 </div>
               )}
 
