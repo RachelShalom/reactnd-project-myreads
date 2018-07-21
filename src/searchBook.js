@@ -9,7 +9,7 @@ class SearchBook extends React.Component {
         books:[],
         query:''
     }
-    //a function tthat takes two arrays:
+    //a function that takes two arrays:
     //first array contains all books returned from the BooksAPI search with the query typed by the user
     //second array contains books that are on shelf("cureently reading"etc..)
     // the function finds the identical books in each array and add a shelf to the books returned from the search
@@ -20,24 +20,19 @@ class SearchBook extends React.Component {
       for (var i = 0; i < shelfBooks.length; i++) {
         if (shelfBooks[i].id === b1.id) {
           b1["shelf"] =shelfBooks[i].shelf;
-          console.log("identical book found: ", b1);
+          //console.log("identical book found: ", b1);
         }
       }
       return b1;
     })
-    console.log("updated: ", updated)
     return updated;
   }
 
-     
-   
-    
-    
     //a function to present the right results according to the user query
   updateSearchResults = (query) => {
     this.setState({ query: query })
     if (query) {
-      BooksAPI.search(query).then((books) => {
+      BooksAPI.search(query.trim()).then((books) => {
         //is this the response to the current query 
         if (query === this.state.query) {
           //in case it is the is the response not empty/defined
@@ -67,7 +62,6 @@ class SearchBook extends React.Component {
         bookResults=[];
       }
         return (
-         
           <div className="search-books">
             <div className="search-books-bar">
               <Link to="/" className="close-search">Close</Link>
@@ -84,7 +78,7 @@ class SearchBook extends React.Component {
                   <li key={book.id}>
                     <div className="book">
                       <div className="book-top">
-                        {/*if the boog has no image replace it with fall back image*/}
+                        {/*if the boog has no image replace it with fallback image*/}
                         {book.imageLinks && <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>}
                         {!book.imageLinks && <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(https://source.unsplash.com/_M-DrbiNFa4)` }}></div>}
                         <div className="book-shelf-changer">
