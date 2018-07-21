@@ -3,6 +3,10 @@
 This is a  project for Udacity's React Fundamentals course.  Udacity provided with a starter code template in order to save  time by providing a static example of the CSS and HTML markup that may be used, but without any of the React code that is needed to complete the project. 
 
 #Functionallity:
+The user can:
+1. categorize each book to be "currently reading", "read","want to read" and none
+2.user can search for books and catogorize them when results are shown
+
 
 ## TL;DR
 
