@@ -9,23 +9,28 @@ class SearchBook extends React.Component {
         books:[],
         query:''
     }
-    //a function to compare 2 arrays of books and change the book.shlef if the books are identical
-    compareBooks= (searchedBooks,shelfBooks)=>{
-      let identicalBook;
-      searchedBooks.map((b1)=>{
-        //are there any books from the search on the shelf?
-      identicalBook=shelfBooks.find((b2)=>{ return b2.id===b1.id})
-      console.log("identical shlefBook: ", identicalBook);
-      if(identicalBook){
-        b1["shelf"]=identicalBook.shelf;
-        console.log("b1",b1);
+    //a function tthat takes two arrays:
+    //first array contains all books returned from the BooksAPI search with the query typed by the user
+    //second array contains books that are on shelf("cureently reading"etc..)
+    // the function finds the identical books in each array and add a shelf to the books returned from the search
+  compareBooks = (searchedBooks, shelfBooks) => {
+    let updated;
+    updated = searchedBooks.map((b1) => {
+      //are there any books from the search on the shelf?
+      for (var i = 0; i < shelfBooks.length; i++) {
+        if (shelfBooks[i].id === b1.id) {
+          b1["shelf"] =shelfBooks[i].shelf;
+          console.log("identical book found: ", b1);
+        }
       }
-      
       return b1;
-     
     })
-      
-    }
+    console.log("updated: ", updated)
+    return updated;
+  }
+
+     
+   
     
     
     //a function to present the right results according to the user query
@@ -52,12 +57,12 @@ class SearchBook extends React.Component {
   }
 
     render() {
-      let bookResults, updated;
+      let bookResults, updatedBooks;
       if(this.state.books.length>0){
-        bookResults= this.state.books;
-        updated=this.compareBooks(this.state.books, this.props.booksOnShelf);
+        bookResults= this.compareBooks(this.state.books, this.props.booksOnShelf);
+        //updatedBooks=this.compareBooks(this.state.books, this.props.booksOnShelf);
         console.log(bookResults);
-        console.log("updated results ",updated);
+        console.log("updated results ",updatedBooks);
       }else{
         bookResults=[];
       }
@@ -88,7 +93,7 @@ class SearchBook extends React.Component {
                             <option value="currentlyReading" selected={book.shelf === "currentlyReading"}>Currently Reading</option>
                             <option value="wantToRead" selected={book.shelf === "wantToRead"} >Want to Read</option>
                             <option value="read" selected={book.shelf === "read"}>Read</option>
-                            <option value="none" selected >None</option>
+                            <option value="none" selected={!book.shelf} >None</option>
                           </select>
                         </div>
                       </div>
