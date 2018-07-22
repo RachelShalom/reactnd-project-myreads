@@ -52,12 +52,12 @@ class SearchBook extends React.Component {
   }
 
     render() {
-      let bookResults, updatedBooks;
+      let bookResults;
       if(this.state.books.length>0){
         bookResults= this.compareBooks(this.state.books, this.props.booksOnShelf);
         //updatedBooks=this.compareBooks(this.state.books, this.props.booksOnShelf);
         console.log(bookResults);
-        console.log("updated results ",updatedBooks);
+  
       }else{
         bookResults=[];
       }

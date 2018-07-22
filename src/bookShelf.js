@@ -9,8 +9,7 @@ render(){
 
     //the filtered list of books by a shelf
     let booksOfShelf= this.props.books.filter((book)=>{ return book.shelf.toUpperCase()===this.props.title.replace(/\s/g, "").toUpperCase()
-    //console.log(this.props.title.replace(/\s/g, "").toUpperCase(), book.shelf.toUpperCase());
-    //console.log(book.shelf.toUpperCase()===this.props.title.replace(/\s/g, "").toUpperCase());
+   
 })
 console.log(booksOfShelf);
     return(
